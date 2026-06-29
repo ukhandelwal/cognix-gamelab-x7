@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cognix GameLab — Admin Panel</title>
+  <meta name="description" content="Admin dashboard for Cognix GameLab X7 — manage users, deposits, withdrawals, bets and game results." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <div id="admin-app">
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+      <div class="login-card">
+        <div class="login-logo">
+          <div class="logo-icon">⚡</div>
+          <h1>Cognix Admin</h1>
+          <p>GameLab X7 Control Panel</p>
+        </div>
+        <div class="login-form">
+          <div class="form-group">
+            <label>Admin Username</label>
+            <input type="text" id="admin-user-input" placeholder="Enter admin username" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="admin-pass-input" placeholder="Enter password" />
+          </div>
+          <div id="login-error" class="login-error hidden">Invalid credentials. Try again.</div>
+          <button id="login-btn" class="login-btn">Sign In to Dashboard</button>
+        </div>
+        <p class="login-hint">Default: admin / Admin@1234</p>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard hidden">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">
+            <span class="logo-icon-sm">⚡</span>
+            <span class="sidebar-title">Cognix Admin</span>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <button class="nav-link active" data-section="overview">
+            <span class="nav-icon">📊</span><span class="nav-label">Overview</span>
+          </button>
+          <button class="nav-link" data-section="users">
+            <span class="nav-icon">👥</span><span class="nav-label">Users</span>
+          </button>
+          <button class="nav-link" data-section="deposits">
+            <span class="nav-icon">💰</span><span class="nav-label">Deposits</span>
+          </button>
+          <button class="nav-link" data-section="withdrawals">
+            <span class="nav-icon">💸</span><span class="nav-label">Withdrawals</span>
+          </button>
+          <button class="nav-link" data-section="bets">
+            <span class="nav-icon">🎲</span><span class="nav-label">Bet History</span>
+          </button>
+          <button class="nav-link" data-section="game-control">
+            <span class="nav-icon">🎮</span><span class="nav-label">Game Control</span>
+          </button>
+          <button class="nav-link" data-section="notifications">
+            <span class="nav-icon">🔔</span><span class="nav-label">Notifications</span>
+          </button>
+          <button class="nav-link" data-section="settings">
+            <span class="nav-icon">⚙️</span><span class="nav-label">Settings</span>
+          </button>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="admin-badge">
+            <div class="admin-avatar">A</div>
+            <div class="admin-info">
+              <span class="admin-name">Super Admin</span>
+              <span class="admin-role">Full Access</span>
+            </div>
+          </div>
+          <button id="logout-btn" class="logout-btn" title="Logout">⎋</button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content" id="main-content">
+        <header class="topbar">
+          <div class="topbar-left">
+            <h2 class="page-title" id="page-title">Overview</h2>
+            <span class="page-subtitle" id="page-subtitle">Welcome back, Admin</span>
+          </div>
+          <div class="topbar-right">
+            <div class="live-badge"><span class="live-dot"></span><span>Live</span></div>
+            <div class="topbar-time" id="topbar-clock">--:--:--</div>
+          </div>
+        </header>
+
+        <!-- OVERVIEW -->
+        <section id="section-overview" class="section active">
+          <div class="stats-grid">
+            <div class="stat-card accent-gold">
+              <div class="stat-icon">💰</div>
+              <div class="stat-info">
+                <span class="stat-label">Total Deposits</span>
+                <span class="stat-value" id="stat-total-deposit">₹0</span>
+                <span class="stat-change positive">Platform Income</span>
+              </div>
+            </div>
+            <div class="stat-card accent-red">
+              <div class="stat-icon">📤</div>
+              <div class="stat-info">
+                <span class="stat-label">Total Withdrawals</span>
+                <span class="stat-value" id="stat-total-withdraw">₹0</span>
+                <span class="stat-change negative">Platform Outflow</span>
+              </div>
+            </div>
+            <div class="stat-card accent-blue">
+              <div class="stat-icon">🎲</div>
+              <div class="stat-info">
+                <span class="stat-label">Total Bets</span>
+                <span class="stat-value" id="stat-total-bets">0</span>
+                <span class="stat-change positive">All Time</span>
+              </div>
+            </div>
+            <div class="stat-card accent-violet">
+              <div class="stat-icon">👥</div>
+              <div class="stat-info">
+                <span class="stat-label">User Balance</span>
+                <span class="stat-value" id="stat-users">₹0</span>
+                <span class="stat-change positive">Current</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-grid-2">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Platform Revenue</h3>
+                <span class="badge badge-green">Live</span>
+              </div>
+              <div class="revenue-block">
+                <div class="revenue-row">
+                  <span>Total Deposited</span>
+                  <strong id="rev-deposit" class="color-gold">₹0</strong>
+                </div>
+                <div class="revenue-row">
+                  <span>Total Withdrawn</span>
+                  <strong id="rev-withdraw" class="color-red">₹0</strong>
+                </div>
+                <div class="revenue-row">
+                  <span>User Winnings (Bets)</span>
+                  <strong id="rev-winnings" class="color-green">₹0</strong>
+                </div>
+                <div class="revenue-divider"></div>
+                <div class="revenue-row total">
+                  <span>Net Platform Profit</span>
+                  <strong id="rev-net" class="color-gold">₹0</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Recent Activity</h3>
+                <button class="refresh-btn" id="refresh-activity-btn">↻ Refresh</button>
+              </div>
+              <div class="activity-list" id="activity-list">
+                <div class="activity-empty">No recent activity</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel mt-16">
+            <div class="panel-header"><h3>Bet Result Distribution</h3></div>
+            <div class="chart-container">
+              <div class="bar-chart" id="bet-chart">
+                <div class="chart-bar-wrap">
+                  <div class="chart-bar" style="height:0%" id="bar-success"></div>
+                  <span class="chart-label">Won</span>
+                </div>
+                <div class="chart-bar-wrap">
+                  <div class="chart-bar bar-red" style="height:0%" id="bar-failed"></div>
+                  <span class="chart-label">Lost</span>
+                </div>
+                <div class="chart-bar-wrap">
+                  <div class="chart-bar bar-yellow" style="height:0%" id="bar-pending"></div>
+                  <span class="chart-label">Pending</span>
+                </div>
+              </div>
+              <div class="chart-legend">
+                <div class="legend-item"><span class="dot dot-green"></span> Won: <strong id="legend-won">0</strong></div>
+                <div class="legend-item"><span class="dot dot-red"></span> Lost: <strong id="legend-lost">0</strong></div>
+                <div class="legend-item"><span class="dot dot-yellow"></span> Pending: <strong id="legend-pending">0</strong></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- USERS -->
+        <section id="section-users" class="section">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>User Management</h3>
+              <div class="panel-actions">
+                <input type="text" class="search-input" id="user-search" placeholder="Search phone / UID..." />
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>UID</th><th>Phone</th><th>Balance</th><th>Deposited</th><th>Withdrawn</th><th>VIP</th><th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- DEPOSITS -->
+        <section id="section-deposits" class="section">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Deposit Records</h3>
+              <div class="panel-actions">
+                <select class="filter-select" id="deposit-status-filter">
+                  <option value="all">All Status</option>
+                  <option value="Success">Success</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Failed">Failed</option>
+                </select>
+                <button class="btn-primary sm" id="add-deposit-btn">+ Add</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>ID</th><th>Amount</th><th>Channel</th><th>Time</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="deposits-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- WITHDRAWALS -->
+        <section id="section-withdrawals" class="section">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Withdrawal Records</h3>
+              <div class="panel-actions">
+                <select class="filter-select" id="withdraw-status-filter">
+                  <option value="all">All Status</option>
+                  <option value="Success">Success</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Failed">Failed</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>ID</th><th>Amount</th><th>Time</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="withdrawals-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- BET HISTORY -->
+        <section id="section-bets" class="section">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Bet History</h3>
+              <div class="panel-actions">
+                <select class="filter-select" id="bet-game-filter">
+                  <option value="all">All Games</option>
+                  <option value="Win Go">Win Go</option>
+                </select>
+                <select class="filter-select" id="bet-status-filter">
+                  <option value="all">All Status</option>
+                  <option value="Success">Won</option>
+                  <option value="Failed">Lost</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>ID</th><th>Game</th><th>Mode</th><th>Selection</th><th>Amount</th><th>Result</th><th>Payout</th><th>Status</th><th>Time</th></tr>
+                </thead>
+                <tbody id="bets-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- GAME CONTROL -->
+        <section id="section-game-control" class="section">
+          <div class="section-grid-2">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>🎮 Win Go Control</h3>
+                <span class="badge badge-live">Live</span>
+              </div>
+              <p class="panel-desc">Force the next Win Go result. The override will apply on the next round tick.</p>
+              <div class="control-form">
+                <div class="form-group">
+                  <label>Mode</label>
+                  <select id="gc-wingo-mode">
+                    <option value="30Sec">30 Seconds</option>
+                    <option value="1Min">1 Minute</option>
+                    <option value="3Min">3 Minutes</option>
+                    <option value="5Min">5 Minutes</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Force Number (0–9)</label>
+                  <div class="number-picker" id="wingo-number-picker">
+                    <button class="num-btn" data-num="0">0</button>
+                    <button class="num-btn" data-num="1">1</button>
+                    <button class="num-btn" data-num="2">2</button>
+                    <button class="num-btn" data-num="3">3</button>
+                    <button class="num-btn" data-num="4">4</button>
+                    <button class="num-btn" data-num="5">5</button>
+                    <button class="num-btn" data-num="6">6</button>
+                    <button class="num-btn" data-num="7">7</button>
+                    <button class="num-btn" data-num="8">8</button>
+                    <button class="num-btn" data-num="9">9</button>
+                  </div>
+                </div>
+                <div id="wingo-force-status" class="force-status hidden"></div>
+                <button class="btn-primary full-width" id="gc-set-wingo">✓ Set Forced Result</button>
+                <button class="btn-secondary full-width mt-8" id="gc-clear-wingo">✕ Clear Override</button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header"><h3>📜 Win Go History</h3></div>
+              <div class="form-group">
+                <label>Mode</label>
+                <select id="gc-history-mode">
+                  <option value="30Sec">30 Seconds</option>
+                  <option value="1Min">1 Minute</option>
+                  <option value="3Min">3 Minutes</option>
+                  <option value="5Min">5 Minutes</option>
+                </select>
+              </div>
+              <div class="history-list" id="wingo-history-list"></div>
+            </div>
+          </div>
+
+          <div class="panel mt-16">
+            <div class="panel-header">
+              <h3>⚡ Pending Bets Override</h3>
+              <span class="badge badge-yellow" id="pending-count-badge">0 Pending</span>
+            </div>
+            <p class="panel-desc">Force win or lose on individual pending bets.</p>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Bet ID</th><th>Game</th><th>Selection</th><th>Amount</th><th>Period</th><th>Override</th></tr>
+                </thead>
+                <tbody id="pending-bets-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- NOTIFICATIONS -->
+        <section id="section-notifications" class="section">
+          <div class="panel">
+            <div class="panel-header"><h3>Send In-App Notification</h3></div>
+            <p class="panel-desc">Send a toast notification that will appear in the user's app on next load from localStorage.</p>
+            <div class="control-form">
+              <div class="form-group">
+                <label>Message</label>
+                <input type="text" id="notif-message" placeholder="Enter notification message..." />
+              </div>
+              <div class="form-group">
+                <label>Type</label>
+                <select id="notif-type">
+                  <option value="info">Info (Blue)</option>
+                  <option value="success">Success (Green)</option>
+                  <option value="error">Error (Red)</option>
+                </select>
+              </div>
+              <button class="btn-primary" id="send-notif-btn">📢 Send Notification</button>
+              <div id="notif-status" class="force-status hidden mt-8"></div>
+            </div>
+          </div>
+          <div class="panel mt-16">
+            <div class="panel-header"><h3>Notification Log</h3></div>
+            <div class="activity-list" id="notif-history">
+              <div class="activity-empty">No notifications sent yet</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="section-settings" class="section">
+          <div class="section-grid-2">
+            <div class="panel">
+              <div class="panel-header"><h3>Platform Settings</h3></div>
+              <div class="control-form">
+                <div class="form-group">
+                  <label>Min Withdrawal Amount (₹)</label>
+                  <input type="number" id="setting-min-withdraw" value="110" />
+                </div>
+                <div class="form-group">
+                  <label>Default Payout Ratio (Big/Small)</label>
+                  <input type="number" id="setting-payout" value="1.96" step="0.01" />
+                </div>
+                <div class="form-group">
+                  <label>Number Bet Multiplier</label>
+                  <input type="number" id="setting-num-mult" value="9.0" step="0.1" />
+                </div>
+                <button class="btn-primary" id="save-settings-btn">💾 Save Settings</button>
+                <div id="settings-status" class="force-status hidden mt-8"></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header"><h3>⚠ Data Management</h3></div>
+              <div class="control-form">
+                <p class="panel-desc">These actions directly modify the localStorage of the connected app.</p>
+                <button class="btn-danger full-width" id="clear-bets-btn">🗑 Clear All Bet Records</button>
+                <button class="btn-danger full-width mt-8" id="clear-history-btn">🗑 Clear Game History</button>
+                <button class="btn-danger full-width mt-8" id="reset-balance-btn">💀 Reset User Balance to ₹0</button>
+                <button class="btn-danger full-width mt-8" id="full-reset-btn">☠ FULL RESET — Wipe All Data</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div id="edit-user-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Edit User</h3>
+        <button class="modal-close" id="close-edit-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Balance (₹)</label>
+          <input type="number" id="edit-balance" placeholder="Enter new balance" />
+        </div>
+        <div class="form-group">
+          <label>VIP Level (0–10)</label>
+          <input type="number" id="edit-vip" min="0" max="10" placeholder="VIP Level" />
+        </div>
+        <div class="form-group">
+          <label>Manually Add to Total Deposit (₹)</label>
+          <input type="number" id="edit-add-deposit" placeholder="Amount to add (optional)" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancel-edit-modal">Cancel</button>
+        <button class="btn-primary" id="save-edit-user">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="add-deposit-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Add Manual Deposit</h3>
+        <button class="modal-close" id="close-dep-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Amount (₹)</label>
+          <input type="number" id="dep-amount" placeholder="Enter amount" />
+        </div>
+        <div class="form-group">
+          <label>Channel</label>
+          <select id="dep-channel">
+            <option>Super-QR</option>
+            <option>UPI</option>
+            <option>Bank Transfer</option>
+            <option>Admin Credit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="dep-status-sel">
+            <option>Success</option>
+            <option>Pending</option>
+            <option>Failed</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancel-dep-modal">Cancel</button>
+        <button class="btn-primary" id="save-dep-modal">Add Deposit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Toast -->
+  <div id="admin-toast" class="admin-toast hidden"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
