@@ -13,6 +13,8 @@ import RegisterView from '../pages/Register';
 import WinGoView from '../games/WinGo';
 import K3LotteryView from '../games/K3Lottery';
 import Lotre5DView from '../games/Lotre5D';
+import AviatorView from '../games/Aviator';
+import ChickenView from '../games/Chicken';
 import DepositView from '../pages/Deposit';
 import WithdrawView from '../pages/Withdraw';
 import SettingsView from '../pages/Settings';
@@ -57,6 +59,10 @@ const AppShell = () => {
         return <K3LotteryView />;
       case '5D':
         return <Lotre5DView />;
+      case 'Aviator':
+        return <AviatorView />;
+      case 'Chicken':
+        return <ChickenView />;
       case 'Deposit':
         return <DepositView />;
       case 'Withdraw':

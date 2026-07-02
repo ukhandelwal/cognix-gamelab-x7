@@ -381,6 +381,45 @@ export const AppProvider = ({ children }) => {
     return () => clearInterval(intervalId);
   }, []);
 
+  const deductBalance = (amount) => {
+    if (amount > user.balance) {
+      showToast("Insufficient balance to place bet!", "error");
+      return false;
+    }
+    setUser(prev => ({
+      ...prev,
+      balance: parseFloat((prev.balance - amount).toFixed(2))
+    }));
+    return true;
+  };
+
+  const addWinningsAndRecordBet = (game, betAmount, multiplier, selection, status, payout) => {
+    const newBet = {
+      id: "bet_" + Date.now(),
+      game,
+      mode: "Instant",
+      period: "INST-" + Math.floor(100000 + Math.random() * 900000),
+      time: new Date().toISOString().replace('T', ' ').substring(0, 19),
+      selection,
+      amount: betAmount,
+      status, // "Success" or "Failed"
+      resultNumber: multiplier.toFixed(2) + "x",
+      payout: parseFloat(payout.toFixed(2))
+    };
+
+    setBets(prev => [newBet, ...prev]);
+
+    if (payout > 0) {
+      setUser(prev => ({
+        ...prev,
+        balance: parseFloat((prev.balance + payout).toFixed(2))
+      }));
+      showToast(`Congratulations! You won ₹${payout.toFixed(2)}!`, "success");
+    } else {
+      showToast("Bet settled. Better luck next time!", "info");
+    }
+  };
+
   return (
     <AppContext.Provider value={{
       user,
@@ -398,7 +437,9 @@ export const AppProvider = ({ children }) => {
       depositMoney,
       withdrawMoney,
       placeBet,
-      getPeriodId
+      getPeriodId,
+      deductBalance,
+      addWinningsAndRecordBet
     }}>
       {children}
     </AppContext.Provider>

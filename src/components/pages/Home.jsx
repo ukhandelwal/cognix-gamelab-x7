@@ -226,56 +226,99 @@ const Home = () => {
 
       {/* Game Cards Section */}
       <div style={{ padding: '12px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <h4 style={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: '600', paddingLeft: '4px' }}>Lottery</h4>
         
-        {/* Win Go Card */}
-        <div 
-          onClick={() => setTab('WinGo')}
-          style={{ background: 'linear-gradient(135deg, #2a2e43 0%, #1b1e2c 100%)', borderRadius: 'var(--border-radius-md)', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 4px 15px rgba(0,0,0,0.15)' }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'linear-gradient(135deg, #e83d3d, #8a3ffc, #13b367)', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center', fontWeight: '800', color: '#fff', fontSize: '18px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>W</div>
-            <div>
-              <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', marginBottom: '2px' }}>Win Go</h3>
-              <p style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Color prediction game with 30s/1m/3m/5m cycles</p>
+        {/* Lottery Section */}
+        {(activeCategory === 'Lobby' || activeCategory === 'Lottery' || activeCategory === 'Popular') && (
+          <>
+            <h4 style={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: '600', paddingLeft: '4px' }}>Lottery</h4>
+            
+            {/* Win Go Card */}
+            <div 
+              onClick={() => setTab('WinGo')}
+              style={{ background: 'linear-gradient(135deg, #2a2e43 0%, #1b1e2c 100%)', borderRadius: 'var(--border-radius-md)', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 4px 15px rgba(0,0,0,0.15)' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'linear-gradient(135deg, #e83d3d, #8a3ffc, #13b367)', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center', fontWeight: '800', color: '#fff', fontSize: '18px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>W</div>
+                <div>
+                  <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', marginBottom: '2px' }}>Win Go</h3>
+                  <p style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Color prediction game with 30s/1m/3m/5m cycles</p>
+                </div>
+              </div>
+              <ChevronRight size={20} color="var(--text-muted)" />
             </div>
-          </div>
-          <ChevronRight size={20} color="var(--text-muted)" />
-        </div>
 
-        {/* K3 Lottery Card */}
-        <div 
-          onClick={() => setTab('K3')}
-          style={{ background: 'linear-gradient(135deg, #3d2a43 0%, #291b2c 100%)', borderRadius: 'var(--border-radius-md)', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 4px 15px rgba(0,0,0,0.15)' }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'linear-gradient(135deg, #f3a83b, #e83d3d)', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center', fontWeight: '800', color: '#fff', fontSize: '18px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>K3</div>
-            <div>
-              <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', marginBottom: '2px' }}>K3 Lottery</h3>
-              <p style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Sum values prediction, same digits, diff digits</p>
+            {/* K3 Lottery Card */}
+            <div 
+              onClick={() => setTab('K3')}
+              style={{ background: 'linear-gradient(135deg, #3d2a43 0%, #291b2c 100%)', borderRadius: 'var(--border-radius-md)', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 4px 15px rgba(0,0,0,0.15)' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'linear-gradient(135deg, #f3a83b, #e83d3d)', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center', fontWeight: '800', color: '#fff', fontSize: '18px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>K3</div>
+                <div>
+                  <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', marginBottom: '2px' }}>K3 Lottery</h3>
+                  <p style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Sum values prediction, same digits, diff digits</p>
+                </div>
+              </div>
+              <ChevronRight size={20} color="var(--text-muted)" />
             </div>
-          </div>
-          <ChevronRight size={20} color="var(--text-muted)" />
-        </div>
 
-        {/* 5D Lotre Card */}
-        <div 
-          onClick={() => setTab('5D')}
-          style={{ background: 'linear-gradient(135deg, #2a3d43 0%, #1b292c 100%)', borderRadius: 'var(--border-radius-md)', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 4px 15px rgba(0,0,0,0.15)' }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'linear-gradient(135deg, #13b367, #2a85ff)', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center', fontWeight: '800', color: '#fff', fontSize: '18px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>5D</div>
-            <div>
-              <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', marginBottom: '2px' }}>5D Lotre</h3>
-              <p style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>A, B, C, D, E rows prediction. High multipliers</p>
+            {/* 5D Lotre Card */}
+            <div 
+              onClick={() => setTab('5D')}
+              style={{ background: 'linear-gradient(135deg, #2a3d43 0%, #1b292c 100%)', borderRadius: 'var(--border-radius-md)', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 4px 15px rgba(0,0,0,0.15)' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'linear-gradient(135deg, #13b367, #2a85ff)', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center', fontWeight: '800', color: '#fff', fontSize: '18px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>5D</div>
+                <div>
+                  <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', marginBottom: '2px' }}>5D Lotre</h3>
+                  <p style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>A, B, C, D, E rows prediction. High multipliers</p>
+                </div>
+              </div>
+              <ChevronRight size={20} color="var(--text-muted)" />
             </div>
-          </div>
-          <ChevronRight size={20} color="var(--text-muted)" />
-        </div>
+          </>
+        )}
+
+        {/* Mini Games Section */}
+        {(activeCategory === 'Lobby' || activeCategory === 'Mini games' || activeCategory === 'Popular') && (
+          <>
+            <h4 style={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: '600', paddingLeft: '4px', marginTop: '8px' }}>Mini Games</h4>
+            
+            {/* Aviator Card */}
+            <div 
+              onClick={() => setTab('Aviator')}
+              style={{ background: 'linear-gradient(135deg, #432a2a 0%, #2c1b1b 100%)', borderRadius: 'var(--border-radius-md)', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 4px 15px rgba(0,0,0,0.15)' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'linear-gradient(135deg, #ef4444, #b91c1c)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', color: '#fff', fontSize: '18px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>✈️</div>
+                <div>
+                  <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', marginBottom: '2px' }}>Aviator</h3>
+                  <p style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Crash multiplier game. Cash out before plane flies away</p>
+                </div>
+              </div>
+              <ChevronRight size={20} color="var(--text-muted)" />
+            </div>
+
+            {/* Chicken Card */}
+            <div 
+              onClick={() => setTab('Chicken')}
+              style={{ background: 'linear-gradient(135deg, #43392a 0%, #2c241b 100%)', borderRadius: 'var(--border-radius-md)', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 4px 15px rgba(0,0,0,0.15)' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'linear-gradient(135deg, #f59e0b, #d97706)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', color: '#fff', fontSize: '18px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }}>🍗</div>
+                <div>
+                  <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', marginBottom: '2px' }}>Chicken</h3>
+                  <p style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Dome mines game. Reveal plates, find chicken & avoid bones</p>
+                </div>
+              </div>
+              <ChevronRight size={20} color="var(--text-muted)" />
+            </div>
+          </>
+        )}
       </div>
 
       {/* Floating Buttons Sidebar (matching screenshot overlay widgets) */}
-      <div style={{ position: 'fixed', right: '16px', bottom: '80px', display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 90 }}>
+      <div className="floating-sidebar">
         {/* Telegram Link (mock) */}
         <div 
           onClick={() => alert("Redirecting to Telegram Support Group...")}
